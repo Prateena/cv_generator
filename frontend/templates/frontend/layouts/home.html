@@ -1,0 +1,43 @@
+{% extends 'frontend/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="col-md-5 mt-4" style="margin: auto;">
+{% if message %}<h5>{{ message }}</h5>{% endif %}
+</div>
+<!-- Registration and Login Box -->
+{% if not request.user.is_authenticated %}
+<div class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="call-to-action-box candidate-box">
+                    <div class="icon" style="left:0!important;">
+                        <img src="{% static 'frontend/images/login.jpg' %}" alt="" style="width: 60%;">
+                    </div>
+                    <span>Already Have an</span>
+                    <h3>Account?</h3>
+                    <a class="candidate__register__button active" href="{% url 'frontend:login' %}">Login
+                        Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="call-to-action-box employer-register">
+                    <div class="icon" style="left:0!important;">
+                        <img src="{% static 'frontend/images/register.png' %}" alt="" style="height: 195px; width: 100%; vertical-align: auto!important;">
+                    </div>
+                    <span>Don't Have an</span>
+                    <h3>Account, Yet?</h3>
+                    <a class="employer__register__button active"
+                        href="{% url 'frontend:signup' %}">Register
+                        Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- Registration and Login Box End -->
+{% endblock %}

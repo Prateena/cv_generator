@@ -1,0 +1,53 @@
+
+<div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: lighter;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-book">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>&nbsp; Educational Qualification</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="close">
+  <span aria-hidden="True">&times;</span>
+</button>
+    </div>
+    
+    <form action="{{ url }}#education" method="post" class="dashboard-form" id="form" novalidate>
+      {% csrf_token %}
+      <div class="modal-body"> 
+
+        {% for field in form %}
+          <div class="form-group">
+            <span>{{ field.label }} {% if field.field.required %} <small style="color: red">*</small> {% endif %}</span>
+            {% if field.help_text %}<br><i>{{field.help_text}}</i>{% endif %}
+            {{field}}
+          </div>
+        {% endfor %}
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" value="Save Changes" class="button">Save Changes</button>
+        <button data-dismiss="modal" class="button" style="background-color:#dc3545;">Cancel</button>
+      </div
+    </form>
+
+    <script>
+      var percentage = $('#id_percentage').parent();
+      var cgpa = $('#id_cgpa').parent();
+
+      percentage.show();
+      cgpa.hide();
+
+      var type = $('#id_grade_type');
+
+      type.change(function(){
+        var choice = type.val();
+        if(choice == 1){
+          percentage.show();
+          cgpa.hide();
+        }else {
+          cgpa.show();
+          percentage.hide();
+        }
+      })
+
+    </script>

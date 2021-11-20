@@ -1,0 +1,50 @@
+{% extends 'candidate/dashboard/dashboard.html' %}
+{% block title %}Dashboard{% endblock%}
+{% block head %} {% endblock%}
+{% load humanize %}
+
+{% block dashboard %}
+<div class="dashboard-content-wrapper">
+<div class="dashboard-section user-statistic-block">
+        <div class="user-statistic">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          <h3>{{ jobs_viewed }}</h3>
+          <span>Jobs Viewed</span>
+        </div>
+        <div class="user-statistic">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-briefcase"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          <h3>{{applied_jobs}}</h3>
+          <span>Applied Jobs</span>
+        </div>
+        <div class="user-statistic">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark ">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> -->
+          <h3>{{bookmarked}}</h3>
+          <span>Bookmarked Jobs</span>
+        </div>
+</div> 
+  {% comment %}
+      <div class="dashboard-section dashboard-view-chart"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
+        <canvas id="view-chart" width="658" height="329" style="display: block; width: 658px; height: 329px;"></canvas>
+      </div>
+  {% endcomment %}
+  
+  
+  <div class="dashboard-section dashboard-recent-activity">
+        <h4 class="title">Recent Activity</h4>
+        {% for c in candidate_activity %}
+          <div class="activity-list">
+            <i class="fas fa-bolt"></i>
+            <a href="{{c.url }}"> 
+            <div class="content">
+              <h5>{{ c.activity }}  </h5>
+              <span class="time">{{ c.created_at|naturaltime }}</span>
+            </div> 
+          </a>
+          </div>
+        {% endfor %}
+      </div>
+</div>
+{% endblock %}

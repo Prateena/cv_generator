@@ -1,0 +1,28 @@
+<div class="modal-header">
+	<h5 style="font-weight: lighter;">Personal Details hlllklfjsd</h5>
+	<button type="button" class="close" data-dismiss="modal" aria-label="close">
+		<span aria-hidden="True">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<form action="{{ url }}#personal-information"
+		class="dashboard-form" method="POST" id="form" novalidate>
+		{% csrf_token %}
+		<div class="dashboard-section basic-info-input">
+
+			{% for field in form %}
+			<div class="form-group row">
+				<label for="{{ field.label }}" class="col-sm-4 col-form-label">{{ field.label}} {% if field.field.required%}<small style="color: red;">*</small>{% endif %}</label>
+				<div class="col-sm-8">
+					{{ field }}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="modal-footer">
+			<input type="submit" value="Save Changes" class="button btn-primary">
+			<button data-dismiss="modal" class="button" style="background-color:#dc3545;">Cancel</button>
+		</div>
+	</form>
+
+</div>

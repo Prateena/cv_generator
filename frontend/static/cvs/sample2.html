@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>cv</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+    
+    <style type="text/css">
+    .curriculum-vitae-icons {
+        text-align: right;
+    }
+
+    .curriculum-vitae-icons ul {
+        list-style: none;
+
+    }
+
+    .curriculum-vitae-icons span i {
+        width: 25px;
+        text-align: center;
+        margin-left: 10px;
+        color: #0d3f72;
+    }
+
+    .curriculum-vitae-icons li {
+        padding-bottom: 10px;
+    }
+
+    .curriculum-vitae-post p {
+        color: #0d3f72;
+        font-size: 20px;
+    }
+
+    .curriculum-vitae-paragh p {
+        font-size: 18px;
+    }
+
+    .curriculum-vitae-skills h4 {
+        text-transform: uppercase;
+        border-bottom: 2px solid #0a3c70;
+        font-weight: bold;
+    }
+
+    .curriculum-vitae-skills-inner {
+        margin-top: 30px;
+        margin-bottom: 25px;
+    }
+
+    .curriculum-vitae-skills-btn {
+        background: #154777;
+        color: #fff;
+        border-radius: 5px;
+        margin-right: 5px;
+        padding: 8px 15px 8px 15px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .curriculum-vitae-skills a:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+
+
+    .timeline {
+        list-style: none;
+        padding: 20px 0 1px;
+        position: relative;
+    }
+
+    .timeline:before {
+     top: 25px;
+    bottom: 0px;
+        position: absolute;
+        content: " ";
+        width: 2px;
+        background-color: #154777;
+        left: 0;
+    }
+
+    .timeline>li {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .timeline>li:before,
+    .timeline>li:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline>li:after {
+        clear: both;
+    }
+
+    .timeline>li:before,
+    .timeline>li:after {
+        content: " ";
+        display: table;
+    }
+
+    .timeline>li:after {
+        clear: both;
+    }
+
+    .timeline>li>.timeline-panel {
+        padding: 0px 0px 0px 30px;
+    }
+
+    .timeline>li>.timeline-badge {
+	    color: #fff;
+	    width: 17px;
+	    height: 17px;
+	    line-height: 50px;
+	    font-size: 1.4em;
+	    text-align: center;
+	    position: absolute;
+	    top: 0px;
+	    left: 17px;
+        border: 3px solid #154777;
+        margin-left: -25px;
+        background-color: #fff;
+        z-index: 100;
+        border-top-right-radius: 50%;
+        border-top-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
+    }
+
+    .timeline>li.timeline-inverted>.timeline-panel:before {
+        border-left-width: 0;
+        border-right-width: 15px;
+        left: -15px;
+        right: auto;
+    }
+
+    .timeline>li.timeline-inverted>.timeline-panel:after {
+        border-left-width: 0;
+        border-right-width: 14px;
+        left: -14px;
+        right: auto;
+    }
+
+    .timeline-title {
+        margin-top: 0;
+        color: inherit;
+    }
+
+    .timeline-body>p,
+    .timeline-body>ul {
+        margin-bottom: 0;
+    }
+
+    .timeline-body>p+p {
+        margin-top: 5px;
+    }
+
+    .timeline-heading h4 {
+        text-transform: initial;
+        border-bottom: none;
+    }
+
+    ul.dashed {
+        list-style-type: none;
+        padding-left: 10px;
+        border-left: 2px solid #154777;
+        border-right: 2px solid #154777;
+    }
+
+    ul.dashed li {
+	    padding-right: 15px;
+	        display: flex;
+	}
+
+    ul.dashed>li:before {
+        content: "-";
+        margin-right: 10px;
+    }
+
+    .timeline-body {
+        position: relative;
+    }
+
+    .timeline-body::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 1%;
+        border-bottom: 2px solid #154777;
+        border-top: 2px solid #154777;
+    }
+
+    .timeline-body::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 1%;
+        border-bottom: 2px solid #154777;
+        border-top: 2px solid #154777;
+    }
+
+    .timeline-date {
+	    color: #154777;
+	    font-size: 13px;
+	    font-style: italic;
+	    padding-bottom: 8px;
+	    font-weight: 500px;
+	}
+
+	.timeline-date .timeline-date-rt {
+		float: right;
+	}
+
+	.timeline-heading h5 i {
+	    font-size: 16px;
+	    padding-left: 5px;
+	    color: #154777;
+	}
+
+	.curriculum-vitae-organizations {
+	    margin-bottom: 25px;
+	}
+
+	.curriculum-vitae-organizations-space h4 {
+		margin-bottom: 25px;
+	}
+	@media print{
+		body {
+			-webkit-print-color-adjust: exact !important;
+			color-adjust: exact !important; /*firefox & IE */
+		}
+	}
+    </style>
+</head>
+
+<body>
+    <section class="curriculum-vitae-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <div class="curriculum-vitae-post">
+                        <h1>Jane Roe</h1>
+                        <p>Business Development Manager</p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="curriculum-vitae-icons">
+                        <ul>
+                            <li>jane.roe@gmail.com <span><i class="fas fa-envelope"></i></span></li>
+                            <li>202-555-0166 <span><i class="fas fa-mobile-alt"></i></span></li>
+                            <li>New York, USA <span><i class="fas fa-map-marker-alt"></i></span></li>
+                            <li>linkedin.com/in/jane.roe <span><i class="fab fa-linkedin-in"></i></span></li>
+                            <li>jane.joe <span><i class="fab fa-skype"></i></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="curriculum-vitae-paragh">
+                <p>Professonal Business Developer with more than four years of experience in the business development processes. Involved in product testing, management, and development of new business opportunities.</p>
+            </div>
+            <div class="curriculum-vitae-skills">
+                <h4>Skills</h4>
+                <div class="curriculum-vitae-skills-inner">
+                    <span href="#" class="curriculum-vitae-skills-btn">Seo</span> 
+                    <span class="curriculum-vitae-skills-btn">Public Speaking</span>
+                    <span class="curriculum-vitae-skills-btn">Negotiation</span>
+                    <span class="curriculum-vitae-skills-btn">Teamwork</span>
+                    <span class="curriculum-vitae-skills-btn">Decision Making</span>
+                    <span class="curriculum-vitae-skills-btn">Research & Strategy</span>
+                    <span class="curriculum-vitae-skills-btn">Seo</span>
+                    <span class="curriculum-vitae-skills-btn">Public Speaking</span>
+                    <span class="curriculum-vitae-skills-btn">Negotiation</span>
+                    <span class="curriculum-vitae-skills-btn">Teamwork</span>
+                    <span class="curriculum-vitae-skills-btn">Decision Making</span>
+                    <span class="curriculum-vitae-skills-btn">Research & Strategy</span>
+                </div>
+            </div>
+            <div class="curriculum-vitae-skills">
+                <h4>Work Experience</h4>
+                <div>
+                    <ul class="timeline">
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge"></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Business Development Manager</h4>
+                                    <h5>AirState Solutions <i class="fas fa-share-square"></i></h5>
+                                </div>
+                                <div class="timeline-date">
+                            		<span class="timeline-date-lt">09/2014-06/2017</span>
+                            		<span class="timeline-date-rt">New York, USA</span>
+                            	</div>
+                                <div class="timeline-body">
+                                    <div class="timeline-border">
+                                        <ul class="dashed">
+                                            <li>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. </li>
+                                            <li>Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Nullam leo erat, aliquet quis tempus a, posuere ut mi. </li>
+                                            <li>Ut scelerisque neque et turpis posuere
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge"></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Business Development Manager</h4>
+                                    <h5>AirState Solutions <i class="fas fa-share-square"></i></h5>
+                                </div>
+                                <div class="timeline-date">
+                            		<span class="timeline-date-lt">09/2014-06/2017</span>
+                            		<span class="timeline-date-rt">New York, USA</span>
+                            	</div>
+                                <div class="timeline-body">
+                                    <div class="timeline-border">
+                                        <ul class="dashed">
+                                            <li>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. </li>
+                                            <li>Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Nullam leo erat, aliquet quis tempus a, posuere ut mi. </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                         <li class="timeline-inverted">
+                            <div class="timeline-badge"></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">Business Development Manager</h4>
+                                    <h5>AirState Solutions <i class="fas fa-share-square"></i></h5>
+                                </div>
+                                <div class="timeline-date">
+                            		<span class="timeline-date-lt">09/2014-06/2017</span>
+                            		<span class="timeline-date-rt">New York, USA</span>
+                            	</div>
+                                <div class="timeline-body">
+                                    <div class="timeline-border">
+                                        <ul class="dashed">
+                                            <li>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. </li>
+                                            <li>Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Nullam leo erat, aliquet quis tempus a, posuere ut mi. </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="curriculum-vitae-skills">
+                <h4>Education</h4>
+                <div>
+                    <ul class="timeline">
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge"></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">MS in Economics and Business Administration</h4>
+                                    <h5>The University of Chicago <i class="fas fa-share-square"></i></h5>
+                                </div>
+                                <div class="timeline-date">
+                            		<span class="timeline-date-lt">09/2014-06/2017</span>
+                            		<span class="timeline-date-rt">New York, USA</span>
+                            	</div>
+                                <div class="timeline-body">
+                                    <div class="timeline-border">
+                                        <ul class="dashed">
+                                            <li>Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. </li>
+                                            <li>Interagi no mé, cursus quis, vehicula ac nisi. Aenean vel dui dui. Nullam leo erat, aliquet quis tempus a, posuere ut mi. Nullam leo erat, aliquet quis tempus a, posuere ut mi. </li>
+                                            <li>Ut scelerisque neque et turpis posuere
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="curriculum-vitae-skills curriculum-vitae-organizations-space">
+                <h4>Organizations</h4>
+                <div class="row">
+                	<div class="col-6">
+                		<div class="curriculum-vitae-organizations">
+	                		<h5 class="">American Mangement Association</h5>
+	                		<h6>(2015 - Present)</h6>
+	                	</div>
+                	</div>
+                	
+                	<div class="col-6">
+                		<div class="curriculum-vitae-organizations">
+	                		<h5 class="">American Mangement Association</h5>
+	                		<h6>(2015 - Present)</h6>
+	                	</div>
+                	</div>
+
+                	<div class="col-6">
+                		<div class="curriculum-vitae-organizations">
+	                		<h5 class="">American Mangement Association</h5>
+	                		<h6>(2015 - Present)</h6>
+	                	</div>
+                	</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

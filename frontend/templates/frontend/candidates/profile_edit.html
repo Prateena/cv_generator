@@ -1,0 +1,368 @@
+{% extends 'frontend/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<link href="{% static 'frontend/assets/css/jquery.datetimepicker.css' %}" rel="stylesheet">
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<style>
+  .a {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  .select2-container {
+    width: 100% !important;
+  }
+
+  .cropper-bg {
+    width: 100% !important;
+  }
+
+  .submit-btn {
+    background: red;
+  }
+
+  @media (max-width:767px) {
+    .edit-button {
+      float: right;
+    }
+  }
+
+  /* .inline-edit-button {
+    margin-left: 10px;
+    padding: 6px 10px;
+  } */
+
+  .inline-dropdown select {
+    border: 1px solid red;
+    width: 150px;
+    /* display: block; */
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    word-wrap: normal;
+  }
+
+  .inline-dropdown select option {
+    /* width: 150px; */
+    display: block;
+    word-wrap: normal;
+  }
+
+
+  @media(max-width:575px) {
+    .edit-button {
+      display: none;
+    }
+  }
+
+  label {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  h4 {
+    font-size: 24px !important;
+  }
+
+  p {
+    font-size: 16px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-7" style="margin: auto;">
+  <div class="dashboard-content-wrapper">
+    <div class="dashboard-section basic-info-input dashboard-form">
+      <!-- for button -->
+      <div class="skill-and-profile dashboard-section">
+        <div class="skill">
+
+        </div>
+        <div class="social-profile">
+          <button type="button" class="btn btn-primary edit-button update-basic" data-toggle="modal"
+            data-target="#MyModal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="feather feather-edit-2">
+              <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+
+      <h4 class="mt-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-user-check">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <polyline points="17 11 19 13 23 9"></polyline>
+        </svg>Basic Info</h4>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label required">First Name</label>
+
+        <div class="col-sm-9 ">
+          <p class="first_name" style="width: 100%;display: block;">{{ object.first_name }}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Last Name</label>
+        <div class="col-sm-9">
+          <p class="last_name" style="width: 100%;display: block;">{{ object.last_name }}</p>
+        </div>
+      </div>
+
+      <div class=" form-group row">
+        <label for="username" class="col-sm-3 col-form-label">Username</label>
+        <div class="col-sm-9">
+          <p class="username" style="width: 100%;display: block;">{{ object.username }}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Email Address</label>
+        <div class="col-sm-9">
+          <p class="email" style="width: 100%;display: block;">{{ object.email }}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Phone</label>
+        <div class="col-sm-9">
+          <p class="mobile_number " style="width: 100%;display: block;">
+            {{ object.mobile_number |default_if_none:'----' }}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Address</label>
+        <div class="col-sm-9">
+          <p class="address" style="width: 100%;display: block;">{{ object.address |default_if_none:'----' }}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Gender</label>
+        <div class="col-sm-9">
+          <p class="gender inline-dropdown" style="width: 100%;display: block;">
+            {{ object.get_gender_display |default_if_none:'----' }}</p>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Date Of Birth</label>
+        <div class="col-sm-9">
+          {{ object.dob |default_if_none:'----' }}
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <a href="{% url 'frontend:candidate_cv_update' object.username %}" style="padding:10px 20px; font-size: 15px;"
+            class="float-right resume-page-link btn btn-primary">Generate your CV &nbsp;&nbsp;<i
+              class="fa fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- for candidate form update-->
+
+<div id="MyModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" id="employer-modal">
+      <div class="modal-header">
+        <h5 style="font-weight: lighter;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="feather feather-user-check">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <polyline points="17 11 19 13 23 9"></polyline>
+          </svg> &nbsp; Basic Info</h5>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="close">
+          <span aria-hidden="True">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'frontend:candidate_update' request.user.username %}" class="dashboard-form" method="POST"
+          novalidate id="form">
+          {% csrf_token %}
+          <div class="dashboard-section basic-info-input">
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">First Name<span style="color: red;">*</span></label>
+              <div class="col-sm-8">
+                {{ form.first_name }}
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Last Name<span style="color: red;">*</span></label>
+              <div class="col-sm-8">
+                {{ form.last_name }}
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Username</label>
+              <div class="col-sm-8">
+                {{ form.username }}
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Email Address<span style="color: red;">*</span></label>
+              <div class="col-sm-8">
+                {{ form.email }}
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Phone<span style="color: red;">*</span></label>
+              <div class="col-sm-8">
+                {{ form.mobile_number }}
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Address<span style="color: red;">*</span></label>
+              <div class="col-sm-8">
+                {{ form.address }}
+
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Gender<span style="color: red;">*</span></label>
+              <div class="col-sm-8">
+                {{ form.gender }}
+
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Date of Birth<span style="color: red;">*</span></label>
+              <div class="col-sm-8">
+                {{ form.dob }}
+
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="Save Changes" class="button btn-primary">
+            <button data-dismiss="modal" class="button" style="background-color:#dc3545;">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end candidate form update -->
+
+<div id="MyModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" id="update-modal-content">
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="{% static 'frontend/assets/js/jquery.datetimepicker.full.min.js'%}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/2.0.11/jquery.jeditable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/2.0.11/jquery.jeditable.datepicker.min.js"></script>
+
+<script>
+  $('input[name="dob"]').daterangepicker({
+    singleDatePicker: true,
+    locale: {
+      format: 'YYYY-MM-DD'
+    },
+    showDropdowns: true
+  });
+
+  $('#form').submit(function (e) {
+    e.preventDefault();
+    $('.error_text').remove();
+
+    var formdata = new FormData(this);
+    var url = $(this).attr('action');
+
+    $.ajax({
+      url: url,
+      method: 'post',
+      data: formdata,
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        if (data.status) {
+          location.reload()
+        }
+      },
+      error: function (data) {
+        errors = data.responseJSON;
+        for (let key in errors) {
+          $(`#id_${key}`).parent().append(
+            `<small class="error_text " style="color:red">${errors[key]}</small>`);
+          $(`#id_${key}`).css({
+            'border-color': 'red'
+          });
+        }
+
+        setTimeout(function () {
+          $('.error_text').fadeOut('fast');
+          for (let key in errors) {
+            $(`#id_${key}`).css({
+              'border-color': '#ebebeb'
+            })
+          }
+        }, 2000);
+      }
+    });
+
+  });
+</script>
+<!-- End Script for changing picture -->
+
+<script>
+  $('#id_nationality').val(156);
+  $('#id_skills').select2({
+    tags: true
+  });
+</script>
+
+{% endblock %}

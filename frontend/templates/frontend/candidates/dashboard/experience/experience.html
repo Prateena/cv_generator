@@ -1,0 +1,10 @@
+{% extends 'candidate/dashboard/dashboard.html' %}
+
+{% block dashboard %}
+<div class="dashboard-content-wrapper">
+    {% for object in object_list %}
+        {{object}}
+    {% endfor %}
+        
+</div>
+{% endblock %}

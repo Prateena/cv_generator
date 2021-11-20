@@ -1,0 +1,73 @@
+{% extends 'frontend/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+<style>
+    .p, span{
+        font-size: 18px!important;
+    }
+    .login-cursor:hover{
+        color: blue;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="row candidate__register__form">
+
+    <div class="col-md-5" style="margin: 50px auto;">
+        <div class="shortcut-login a">
+            <p>Already have an account? <a style="cursor:pointer;" class="login-cursor" href="{% url 'frontend:login' %}">Login</a></p>
+            <span>* Fields are Required</span>
+        </div>
+        <br>
+        <p>{{ errors }}</p>
+        <!-- Candidate Signup -->
+    
+        <form method="post" action="{% url 'frontend:signup' %}" class="candidate-signup" novalidate>
+            {% csrf_token %}
+            <!-- User Name and Email validation -->
+            <div class="form-group">
+                {{ candidate_registration_form.first_name }}
+                <div class="candidate_first_name_error"></div>
+            </div>
+            <div class="form-group">
+                {{ candidate_registration_form.last_name }}
+                <div class="candidate_last_name_error"></div>
+            </div>
+
+            <div class="form-group">
+                {{ candidate_registration_form.username }}
+                <div class="candidate_username_error"></div>
+            </div>
+
+            <div class="form-group">
+                {{ candidate_registration_form.mobile_number }}
+                <div class="candidate_mobile_number_error"></div>
+            </div>
+
+            <div class="form-group">
+                {{ candidate_registration_form.email }}
+                <div class="candidate_email_error"></div>
+            </div>
+
+            <div class="form-group">
+                {{ candidate_registration_form.password1 }}
+                <div class="candidate_password1_error"></div>
+            </div>
+
+            <div class="form-group">
+                {{ candidate_registration_form.password2 }}
+                <div class="candidate_password2_error"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-7" style="margin: auto;">
+                    <button type="submit" class="button primary-bg btn-block">Register</button>
+                </div>
+            </div>
+        </form>
+        <!-- End Candidate Signup -->
+    </div>
+</div>
+{% endblock %}

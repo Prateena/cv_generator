@@ -1,0 +1,27 @@
+<style>
+    .a {
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+</style>
+  
+<div class="modal-header"> Update Photo
+<button type="button" class="close" data-dismiss="modal" aria-label="close">
+    <span aria-hidden="True">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+    <div class="dashboard-section upload-profile-photo">
+    <div class="update-photo" style="width:500px;height:500px;">
+        <img id="image" class="image a" src="{{candidate.profile_image.url}}" alt="">
+    </div>
+    <div class="file-upload">
+        <input type="file" class="file-input"  id="imgInp">Upload Image
+    </div>
+    </div>
+    <div class="modal-footer">
+    <!-- <input type="submit" value="Save" class="button" id="save"> -->
+    <a href="" id="save">Save</a>
+    <button data-dismiss="modal" class="button" style="background-color: #dc3545">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,189 @@
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/fontawesome-all.min.css'%}">
+    <link rel="stylesheet" href="{%  static 'frontend/assets/css/themify-icons.css'%}" />
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/et-line.css'%}" />
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/bootstrap-select.min.css'%}" />
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/plyr.css'%}" />
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/flag.css'%}" />
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/slick.css'%}" />
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/owl.carousel.min.css'%}" />
+    <link rel="stylesheet" href="{% static 'frontend/assets/css/jquery.nstSlider.min.css'%}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'frontend/css/main.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'frontend/dashboard/css/dashboard.css' %}">
+
+    <title>{{ candidate.name }} | CV Generator</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600%7CRoboto:300i,400,500" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="frontend/images/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="frontend/images/icon-114x114.png">
+    <link rel="shortcut icon" href="" />
+
+    {% block head %}{% endblock %}
+    <style>
+        .set-active {
+            filter: brightness(.5);
+        }
+
+        @page {
+            size: 21cm 29.7cm;
+            margin: 6mm;
+            /* change the margins as you want them to be. */
+        }
+
+        .templates {
+            display: block;
+            width: 100%;
+            height: 150px;
+            padding-left: 16px;
+            padding-right: 15px;
+            margin-bottom: 50px;
+        }
+
+        .templates a {
+            margin-left: 5px;
+        }
+
+        .thumb a {
+            width: inherit;
+            height: inherit;
+
+        }
+
+        .thumb a img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .owl-nav {
+            position: relative;
+            top: -90px;
+        }
+
+        .owl-prev {
+            left: -13px;
+            position: absolute;
+        }
+
+        .owl-next {
+            right: -13px;
+            position: absolute;
+        }
+
+        .myImg {
+            width: 140px;
+            height: 180px;
+        }
+
+        .item {
+            width: 140px;
+        }
+
+        .item:hover {
+            filter: brightness(.5);
+        }
+
+        /* .no-page-break {
+            page-break-inside: avoid !important;
+        } */
+
+        .color {
+            /* background-color: green; */
+            /* font-weight: bold; */
+            filter: brightness(.5)
+        }
+
+        .btn-download {
+            font-size: 16px;
+            margin: 0px 20px;
+            float: right;
+            border-radius: 100%;
+            background: #2575e2;
+        }
+
+        .btn-download:hover {
+            background: #3e84e6;
+            cursor: pointer;
+        }
+
+        @media print {
+            .btn-download {
+                display: none !important;
+            }
+
+            .templates {
+                display: none;
+            }
+
+            .print-hide {
+                display: none;
+            }
+
+
+            #portfolio {
+                display: none;
+            }
+
+            #BrowserPrintDefaults {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{%  static 'frontend/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'frontend/assets/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'frontend/assets/js/jquery.nstSlider.min.js'%}"></script>
+    <script src="{% static 'frontend/assets/js/owl.carousel.min.js'%}"></script>
+
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: false,
+            margin: 10,
+            nav: true,
+            navText: ['<span class="nav-left ti-angle-left"></span>', '<span class="nav-right ti-angle-right"></span>'],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        })
+        $(document).ready(function () {
+
+            var current_page_url = `{{ request.get_full_path }}`
+
+            $('.owl-stage').children().each(function () {
+                var img = $(this).find('.myImg')
+                var url = img.parent().attr('href');
+                if (url === current_page_url) {
+                    img.addClass('set-active');
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,467 @@
+{% extends 'frontend/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Edit CV{% endblock %}
+
+{% load check %}
+
+{% block head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css">
+<style>
+  .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    width: 100%;
+    text-align: center;
+  }
+
+  .error_text {
+    padding: 10px;
+  }
+
+  .experience-section p {
+    margin-bottom: -1rem;
+  }
+
+  .select2-container {
+    width: 100% !important;
+  }
+
+  .download-cv {
+    justify-content: space-between;
+  }
+
+  .information-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .information-container h4 {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .information-container .btn {
+    position: relative;
+    top: -25px;
+  }
+
+  @media(max-width:320px) {
+    .user-info li span {
+      display: block;
+    }
+  }
+
+  .cropper-bg {
+    width: auto !important;
+  }
+  .skill-and-profile .skill a{
+    background: #154777;
+    border-color: #154777;
+    color: #ffffff;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="col-md-7 mb-4" style="margin: auto;">
+  <div class="dashboard-content-wrapper mt-4">
+    <!-- added for download cv -->
+    <div class="download-cv dashboard-section">
+      <form action="{% url 'frontend:candidate_photo_update' %}" method="POST" class="dashboard-form job-post-form"
+        id="upload-photo" enctype="multipart/form-data">
+
+        <div class="dashboard-section upload-profile-photo">
+          <div class="update-photo">
+            {% if candidate.profile_image %}
+            <img class="a" src="{{ candidate.profile_image.url }}" alt="">
+            {% else %}
+            <img class="a" src="{% static 'frontend/images/user.png' %}">
+            {% endif %}
+          </div>
+          <div class="file-upload">
+            {% csrf_token %}
+            {{ image_form }} 
+            <h6>Change Photo</h6>
+          </div>
+        </div>
+      </form>
+      <!-- <button onclick="Export2Doc('resume')">Download</button> -->
+      <a href="{% url 'frontend:candidate_cv_download' %}?sample=1" class="btn btn-primary" target="_blank" style="float: right; font-size: 14px;">Download CV&nbsp;<svg xmlns="
+        http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </a>
+    </div>
+
+
+    <!-- Skills -->
+    <div class="skill-and-profile dashboard-section" id="skills">
+      <div class="skill">
+        <label style="font-size: 18px;">Skills:</label>
+        {% for skill in candidate.skills.all %}
+        <a style="cursor:pointer;">{{ skill }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- End Skill -->
+
+    <!-- Information -->
+    <div class="about-details details-section dashboard-section" id="information">
+      <h4><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-align-left">
+          <line x1="17" y1="10" x2="3" y2="10"></line>
+          <line x1="21" y1="6" x2="3" y2="6"></line>
+          <line x1="21" y1="14" x2="3" y2="14"></line>
+          <line x1="17" y1="18" x2="3" y2="18"></line>
+        </svg>About Me</h4>
+        {% if candidate.about_me != 'None' %}
+          {{ candidate.about_me|default_if_none:""|safe }}{{ candidate }}
+        {% endif %}
+      <div class="information-and-contact">
+        <div class="information">
+          <div class="information-container">
+            <h4>Information</h4>
+            <button type="button" class="btn btn-primary edit-cv" data-toggle="modal" data-target="#modal"
+              data-intro="Click here to add your personal details" data-step="2"
+              data-url="{% url 'frontend:candidate_personal_detail_update' 4 %}#personal-information"
+              id="personal-information-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-edit-2">
+                <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
+              </svg>
+            </button>
+          </div>
+          <ul class="user-info">
+            <li><span>Full Name: </span> {{ candidate.name }}</li>
+            <li><span>Date of Birth:</span> {{ candidate.dob|default_if_none:"" }}</li>
+            <li><span>Gender:</span> {{ candidate.get_gender_display|default_if_none:"" }}</li>
+            <li><span>Address:</span> {{ candidate.address|default_if_none:"" }}</li>
+            <li><span>Phone Number:</span> {{ candidate.mobile_number|default_if_none:"" }}</li>
+          </ul>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary ex-button edit-cv" data-toggle="modal" data-target="#modal"
+        data-intro="Click here to add your skills and information" data-step="1"
+        data-url="{% url 'frontend:candidate_aboutme_update' 4 %}#information" id="about-me-btn" style="float: right!important; top: -400px;
+        position: relative;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-edit-2">
+          <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
+        </svg>
+      </button>
+    </div>
+    <!-- End Information -->
+    <!-- Education -->
+    <div class="edication-background details-section dashboard-section" id="education">
+
+      <h4>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-book">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        Educational Qualification <small style="color:red;font-weight:bold;">*</small>
+        <button type="button" class="btn btn-primary edit-cv" data-toggle="modal" data-target="#modal"
+          data-intro="Click here to add your educational qualifications" data-step="3"
+          data-url="{% url 'frontend:candidate_education_create' %}#education" id="education-btn"
+          style="float: right!important;">
+          <i class="fa fa-plus"></i>
+        </button>
+      </h4>
+
+      {% for ed in candidate.get_educations %}
+      <div class="education-label">
+        <span class="study-year">{{ ed.passed_year }}</span>
+        <p>{{ ed.degree }}<span>
+            at {{ ed.name_of_institute }}({{ ed.university }})</span><br>
+            <span>Address: {{ ed.location }}</span>
+        </p>
+        <!-- Modal Trigger -->
+
+        <button type="button" class="btn btn-primary edit-cv mt-2" data-toggle="modal" data-target="#modal"
+          data-url="{% url 'frontend:candidate_education_update' ed.id %}#education">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="feather feather-edit-2">
+            <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
+          </svg>
+        </button>
+
+        <button style="margin-right: 40px;" data-url="{% url 'frontend:candidate_education_delete' ed.id %}#education"
+          type="button" class="btn btn-danger edit-cv mt-2" data-toggle="modal" data-target="#modal">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+      {% endfor %}
+
+    </div>
+    <!-- End Education -->
+    <!-- Experience -->
+    <div class="experience details-section dashboard-section mb-4" id="experience">
+      <h4><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-briefcase">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>Work Experience</h4>
+      <button type="button" class="btn btn-primary ex-button edit-cv" data-toggle="modal" data-target="#modal"
+        data-intro="Click here to add your experiences" data-step="4"
+        data-url="{% url 'frontend:candidate_experience_create' %}#experience" id="experience-btn"
+        style="float: right!important; top: -32px; position: relative;">
+        <i class="fa fa-plus"></i>
+      </button>
+
+      {% for ex in candidate.work_experiences.all %}
+      <div class="experience-section">
+        <span class="service-year">
+          {% if ex.start_date and ex.end_date %}
+          {{ ex.start_date }} - {{ ex.end_date }}
+          {% elif ex.start_date and not ex.end_date %}
+              {{ ex.start_date }} - Present
+          {% elif not ex.start_date and not ex.end_date  %}
+            <p> Work Experience</p>
+          {% elif not ex.start_date and ex.end_date %}
+              {{ ex.end_date }}
+          {% endif %}
+        </span>
+        <h5>{{ ex.job_title }}<span>at {{ ex.organization }}</span></h5>
+        {% if ex.job_description %}
+        <p>{{ ex.job_description|safe }}</p>
+        {% endif %}
+        <button data-url="{% url 'frontend:candidate_experience_update' ex.id %}#experience" type="button"
+          class="btn btn-primary edit-cv mt-4" data-toggle="modal" data-target="#modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="feather feather-edit-2">
+            <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
+          </svg>
+        </button>
+        <button style="margin-right: 40px;" data-url="{% url 'frontend:candidate_experience_delete' ex.id %}#experience"
+          type="button" class="btn btn-danger edit-cv mt-4" data-toggle="modal" data-target="#modal">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- End Experience -->
+
+   <button class="button btn-primary mt-4 mb-4" style="float: right;">
+      <a href="{% url 'frontend:candidate_cv_download' %}?sample=1" target="_blank">Download CV&nbsp;<svg xmlns="
+        http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </a>
+   </button>
+  </div>
+</div>
+
+<!-- Main Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" id="modal-content"></div>
+    </div>
+  </div>
+</div>
+<!-- End Main Modal -->
+
+
+<!-- Modal Crop -->
+<div class="modal fade" id="modalCrop">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" style="max-width: 100%">
+        <img src="" alt="" id="image" style="max-width: 100%;">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary js-crop-and-upload">Crop and Upload</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Modal Crop -->
+{% endblock %}
+
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="//cdn.ckeditor.com/4.11.3/basic/ckeditor.js"></script>
+<script src="{% static 'frontend/assets/js/jquery.matchHeight.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js"></script>
+<script>
+  $(document).ready(function () {
+
+    $('.edit-cv').click(function () {
+      var url = $(this).attr('data-url');
+      var section = url.split("#")[1]
+      $.ajax({
+        method: 'GET',
+        url: $(this).attr('data-url'),
+        success: function (data) {
+          $('#modal-content').empty();
+          $('#modal-content').append(data);
+          $('#id_skills').select2({
+            tags: true,
+          });
+
+
+          $('#id_nationality').val(156)
+          $('.skills').find('span').css('width', 'inherit')
+
+          $('#id_start_date, #id_dob, #id_completion_year, #id_ex_start_date, #id_ex_end_date')
+            .daterangepicker({
+              autoUpdateInput: false,
+              singleDatePicker: true,
+              showDropdowns: true,
+              locale: {
+                format: 'YYYY-MM-DD'
+              }
+            });
+
+          $('#id_start_date, #id_dob, #id_completion_year, #id_ex_start_date, #id_ex_end_date').on(
+            'apply.daterangepicker',
+            function (ev, picker) {
+              $(this).val(picker.startDate.format('YYYY-MM-DD'));
+              $(this).siblings('.error_text').remove();
+              $(this).css({
+                'border-color': '#ebebeb'
+              });
+            });
+
+          $('#id_start_date, #id_dob, #id_completion_year, #id_ex_start_date, #id_ex_end_date').on(
+            'cancel.daterangepicker',
+            function (ev, picker) {
+              $(this).val('');
+            });
+        }
+      });
+    });
+
+    $('body').on('submit', '#form', function (e) {
+      e.preventDefault();
+      $('.error_text').remove();
+      var url = $(this).attr('action');
+      var formdata = new FormData(this);
+
+      $.ajax({
+        url: url,
+        data: formdata,
+        method: 'post',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          location.reload()
+        },
+        error: function (data) {
+          errors = data.responseJSON;
+          for (let key in errors) {
+            $(`#id_${key}`).parent().append(
+              `<small class="error_text " style="color:red">${errors[key]}</small>`);
+            $(`#id_${key}`).css({
+              'border-color': 'red'
+            });
+            $(`#id_${key}`).keyup(function () {
+              $(this).siblings('.error_text').remove();
+              $(this).css({
+                'border-color': '#ebebeb'
+              })
+            });
+
+            $(`#id_${key}`).change(function () {
+              $(this).siblings('.error_text').remove();
+              $(this).css({
+                'border-color': '#ebebeb'
+              })
+            });
+          }
+        }
+      });
+    });
+
+  });
+</script>
+
+<script>
+  $('#id_profile_image').change(function () {
+    if (this.files && this.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#image').attr('src', e.target.result);
+        // $('#image').attr('width',200)
+        // $('#image').attr('height',200)
+        $('#modalCrop').modal({
+          backdrop: 'static',
+          keyboard: false
+        });
+      }
+      reader.readAsDataURL(this.files[0]);
+    }
+  })
+
+  var $image = $('#image');
+  var cropBoxData;
+  var canvasData;
+
+  $('#modalCrop').on("shown.bs.modal", function () {
+    $image.cropper({
+      viewMode: 0,
+      aspectRatio: 1 / 1,
+      minCropBoxWidth: 200,
+      minCropBoxHeight: 200,
+      ready: function () {
+        $image.cropper("setCanvasData", canvasData);
+        $image.cropper("setCropBoxData", cropBoxData);
+      }
+    });
+  }).on("hidden.bs.modal", function () {
+    cropBoxData = $image.cropper("getCropBoxData");
+    canvasData = $image.cropper("getCanvasData");
+    $image.cropper("destroy");
+  })
+
+  $('.js-crop-and-upload').click(function () {
+    var cropData = $image.cropper("getData");
+    $("#id_x").val(cropData['x']);
+    $('#id_y').val(cropData['y']);
+    $('#id_height').val(cropData['height']);
+    $('#id_width').val(cropData['width']);
+    $('#upload-photo').submit();
+  });
+
+  $(document).keyup(function (e) {
+    if (e.key === "Escape") {
+      $('#modalCrop').modal('hide');
+    }
+  })
+</script>
+
+{% endblock %}

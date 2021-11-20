@@ -1,0 +1,265 @@
+{% extends 'candidate/dashboard/dashboard.html'%}
+{% block title %}Candidate profile{% endblock %}
+{% block head %}{% endblock %}
+{% load static %}
+
+
+{% block dashboard %}
+<div class="dashboard-content-wrapper dashboard-form">
+  {% comment %}
+  <div class="skill-and-profile dashboard-section">
+
+    <div class="skill">
+      <!-- Modal -->
+    </div>
+    <div class="social-profile">
+      <a href="{% url 'frontend:candidate_update' request.user.candidate.username %}"
+        class="btn btn-primary edit-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-edit-2">
+          <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
+        </svg>
+      </a>
+    </div>
+  </div>
+  {% endcomment %}
+
+  <form action="" method="POST" class="dashboard-form job-post-form">
+    {% csrf_token %}
+    <div class="dashboard-section upload-profile-photo">
+      <div class="update-photo">
+        <img class="a" src="{{ candidate.profile_image.url }}" alt="">
+      </div>
+      <div class="file-upload">
+        <input class="file-input update-basic" data-toggle="modal" name="profile_image"
+          data-url="{% url 'frontend:candidate_photo_update' %}" data-target="#MyModal2">Change Photo
+      </div>
+    </div>
+  </form>
+
+  {% comment %}
+  <img src="{{ candidate.profile_image.url }}" style="width:200px;height:200px;">
+  <br>
+  <br>
+  <br>
+  <br>
+  {% endcomment %}
+
+  <div class="dashboard-section basic-info-input">
+    <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="feather feather-user-check">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="8.5" cy="7" r="4"></circle>
+        <polyline points="17 11 19 13 23 9"></polyline>
+      </svg>Basic Info</h4>
+
+    {{candidate.errors}}
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label required">First Name</span></label>
+
+      <div class="col-sm-9">
+        {{candidate.first_name |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Middle Name<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+        {{candidate.middle_name |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Last Name<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+        {{candidate.last_name |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Username<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+        {{candidate.username |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Email Address<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+        {{candidate.email |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Phone<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+        {{candidate.mobile_number |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Address</label>
+      <div class="col-sm-9">
+        {{candidate.address |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Religion</label>
+      <div class="col-sm-9">
+        {{candidate.get_religion_display |default_if_none:'____'}}
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Gender<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+        {{candidate.get_gender_display |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Nationality</label>
+      <div class="col-sm-9">
+        {{candidate.get_nationality_display |default_if_none:'____'}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Date Of Birth<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+        {{candidate.dob |default_if_none:'____'}}
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Marital Status</label>
+      <div class="col-sm-9">
+        {{candidate.get_marital_status_display| default_if_none:'____'}}
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Skills<span style="color:red;"></span></label>
+      <div class="col-sm-9">
+          <div class="skill-and-profile dashboard-section">
+              <div class="skill">
+                {% for skill in candidate.skills.all %}
+                <a style="cursor:pointer;">{{skill}}</a>
+                {% endfor %}
+                <!-- Button trigger modal -->
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="MyModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" id="update-modal-content">
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% comment %}
+<!-- <form action="" method="post">
+    {% csrf_token %}
+    <div class="dashboard-section basic-info-input">
+      <h4><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Change Password</h4>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Current Password</label>
+        <div class="col-sm-9">
+          {{password.current_password}}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">New Password</label>
+        <div class="col-sm-9">
+          {{password.new_password}}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Retype Password</label>
+        <div class="col-sm-9">
+          {{password.re_password}}
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label"></label>
+        <div class="col-sm-9">
+          <input type="submit" value="Save Changes" class="button btn-primary">
+        </div>
+      </div>
+    </div>
+  </form> -->
+
+
+
+
+
+{% block script %}
+<!-- Java Script for changing picture -->
+<script>
+  $("#inputGroupFile01").change(function (event) {
+    RecurFadeIn();
+    readURL(this);
+  });
+  $("#inputGroupFile01").on('click', function (event) {
+    RecurFadeIn();
+  });
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      var filename = $("#inputGroupFile01").val();
+      filename = filename.substring(filename.lastIndexOf('\\') + 1);
+      reader.onload = function (e) {
+        debugger;
+        $('#blah').attr('src', e.target.result);
+        $('#blah').hide();
+        $('#blah').fadeIn(500);
+        $('.custom-file-label').text(filename);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+    $(".alert").removeClass("loading").hide();
+  }
+  function RecurFadeIn() {
+    console.log('ran');
+    FadeInAlert("Wait for it...");
+  }
+  function FadeInAlert(text) {
+    $(".alert").show();
+    $(".alert").text(text).addClass("loading");
+  }
+</script>
+<!-- End Script for changing picture -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="{% static 'frontend/assets/js/jquery.datetimepicker.full.min.js'%}"></script>
+<script>
+  $('#id_dob').datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false
+  });
+  $('#id_skills').select2({
+    tags: true
+  });
+
+</script>
+
+<script>
+  $('.update-basic').click(function () {
+    console.log('afkgseugfgerlhiughr')
+    var that = this;
+    $.ajax({
+      method: 'GET',
+      url: $(that).attr('data-url'),
+      success: function (data) {
+        $('#update-modal-content').html(data);
+      }
+    });
+  });
+
+  {% if basic_update_form.errors %}
+  $('#MyModal').modal('show')
+  {% endif %}
+
+</script>
+{% endblock %}
+
+{% endcomment %}
