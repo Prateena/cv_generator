@@ -26,7 +26,7 @@ celery -A cv_generator worker -l info
 ---------------------
 - Clone main repository locally.
 ```
-    $ git clone 
+    $ git clone git@github.com:Prateena/cv_generator.git
     $ cd cv_generator
 ```
 
