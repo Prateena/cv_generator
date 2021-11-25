@@ -43,7 +43,7 @@ class SigninView(FormView):
                 if candidate.is_verified: 
                     login(self.request, user)
                     if self.request.GET.get('to') == 'profile':
-                        return redirect('frontend:candidate_update',username=candidate.username)
+                        return redirect('frontend:candidate_update',kwargs={'username':candidate.username})
                     else:
                         return render(self.request,'frontend/auth/login.html',{'message':'Please Check your email inbox for activation email','form':SigninForm})
         else:
@@ -111,6 +111,7 @@ def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
+
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         return render(request,'frontend/layouts/home.html', {'message':'Please Check your email inbox for activation email'})
     if user.is_authenticated:
@@ -121,7 +122,7 @@ def activate(request, uidb64, token):
                 user.candidate.save()            
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')           
                 messages.success(request, 'Account Activation Successful!')            
-                return redirect('frontend:candidate_update', username=user.username)
+                return redirect('frontend:candidate_update', kwargs={'username':user.username})
         else:
             return render(request, 'frontend/layouts/home.html', {'message':'Please Check your email inbox for activation email'})
     else:
@@ -140,7 +141,7 @@ class CandidateUpdateView(CandidateRequired403Mixin, UpdateView):
         return candidate
 
     def get_success_url(self):
-        return reverse_lazy('frontend:candidate_update',username=self.kwargs.get('username'))
+        return reverse_lazy('frontend:candidate_update',kwargs={'username':self.kwargs.get('username')})
 
     def form_invalid(self,form):
         if self.request.is_ajax():
