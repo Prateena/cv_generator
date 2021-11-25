@@ -33,7 +33,7 @@ celery -A cv_generator worker -l info
 - Create a virtualenv
 ```
     $ virtualenv venv --python=python3.8
-    $ source venb/bin/activate
+    $ source venv/bin/activate
 ```
 
 on Windows,
